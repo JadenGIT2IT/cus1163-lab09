@@ -292,48 +292,6 @@ public class FIFOPageReplacementLab {
 }
 ```
 
-## Implementation Guide
-
-### Step-by-Step Solution for TODO 1
-
-```java
-public static int[] simulateFIFO(int[] referenceString, int numFrames) {
-    int pageFaults = 0;
-    int pageHits = 0;
-
-    // Step 1: Create Queue for FIFO order
-    Queue<Integer> queue = new LinkedList<>();
-    
-    // Step 2: Create Set for fast lookup
-    Set<Integer> pagesInMemory = new HashSet<>();
-    
-    // Step 3: Process each page access
-    for (int page : referenceString) {
-        
-        // Step 4: Check if page is in memory
-        if (pagesInMemory.contains(page)) {
-            // Page HIT
-            pageHits++;
-        } else {
-            // Page FAULT
-            pageFaults++;
-            
-            // Step 5: If frames are full, remove oldest
-            if (queue.size() == numFrames) {
-                int victim = queue.poll();  // Remove from queue
-                pagesInMemory.remove(victim);  // Remove from set
-            }
-            
-            // Step 6: Add new page
-            queue.offer(page);  // Add to queue
-            pagesInMemory.add(page);  // Add to set
-        }
-    }
-
-    return new int[]{pageFaults, pageHits};
-}
-```
-
 ## Common Mistakes to Avoid
 
 ### 1. Forgetting to Remove from Both Data Structures
