@@ -35,28 +35,39 @@ public class FIFOPageReplacementLab {
      *
      *   Result: [4 faults, 0 hits]
      */
-    public static int[] simulateFIFO(int[] referenceString, int numFrames) {
-        int pageFaults = 0;
-        int pageHits = 0;
+   public static int[] simulateFIFO(int[] referenceString, int numFrames) {
+    int pageFaults = 0;
+    int pageHits = 0;
 
-        // TODO 1: Implement FIFO algorithm here
-        // Queue<Integer> queue = new LinkedList<>();
-        // Set<Integer> pagesInMemory = new HashSet<>();
+    // FIFO data structures
+    Queue<Integer> queue = new LinkedList<>();
+    Set<Integer> pagesInMemory = new HashSet<>();
 
-        // for (int page : referenceString) {
-        //     if (pagesInMemory.contains(page)) {
-        //         // Page HIT
-        //     } else {
-        //         // Page FAULT
-        //         if (queue.size() == numFrames) {
-        //             // Remove oldest page
-        //         }
-        //         // Add new page
-        //     }
-        // }
+    for (int page : referenceString) {
 
-        return new int[]{pageFaults, pageHits};
+        // Case 1: HIT
+        if (pagesInMemory.contains(page)) {
+            pageHits++;
+        }
+
+        // Case 2: FAULT
+        else {
+            pageFaults++;
+
+            // If frames are full, remove the oldest page
+            if (queue.size() == numFrames) {
+                int victim = queue.poll();
+                pagesInMemory.remove(victim);
+            }
+
+            // Add the new page into memory
+            queue.offer(page);
+            pagesInMemory.add(page);
+        }
     }
+
+    return new int[]{pageFaults, pageHits};
+}
 
     /**
      * Display results for a test case (FULLY PROVIDED)
